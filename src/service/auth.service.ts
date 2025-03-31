@@ -1,4 +1,5 @@
 import { IUserDriverInfo, IUserInfo } from "src/typings/service.js";
+import { http } from "../utils/https.js";
 
 export class AuthService {
     /**
@@ -6,7 +7,8 @@ export class AuthService {
      * @param token 
      */
     async GetUserInfo(): Promise<IUserInfo> {
-
+        const response = await http.get<IUserInfo>('/oauth/users/info')
+        return response.data
     }
 
     /**
@@ -15,6 +17,14 @@ export class AuthService {
      * @returns
      */
     async GetUserDriverInfo(): Promise<IUserDriverInfo> {
-
+        return null as any 
     }
 }
+
+
+const au = new AuthService()
+au.GetUserInfo().then((res) => {
+    console.log(res)
+}).catch((err) => {
+    console.log(err)
+})

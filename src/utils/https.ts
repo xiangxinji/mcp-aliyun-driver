@@ -1,8 +1,11 @@
 import axios from "axios";
 import { project_config } from "../project.config.js";
 
+console.log(project_config.api_url, 'api_url')
+console.log(project_config.access_token, 'access_token')
 export const http = axios.create({
   timeout: 20000,
+  baseURL: project_config.api_url,
   headers: {
     "Content-Type": "application/json",
     'access_token': project_config.access_token || '',
