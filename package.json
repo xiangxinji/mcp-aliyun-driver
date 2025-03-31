@@ -1,0 +1,32 @@
+{
+  "name": "cybercloud-server",
+  "version": "0.1.0",
+  "description": "A Model Context Protocol server",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "cybercloud-server": "./index.js"
+  },
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "build": "tsc && node -e \"require('fs').chmodSync('lib/index.js', '755')\" && node ./scripts/after-build.cjs ",
+    "prepare": "npm run build",
+    "watch": "tsc --watch",
+    "test": "npm run build && node ./lib/test/service/meta.testing.js",
+    "inspector": "npx @modelcontextprotocol/inspector lib/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "0.6.0",
+    "axios": "^1.8.4",
+    "dotenv": "^16.4.7",
+    "form-data": "^4.0.2",
+    "zod": "^3.24.2",
+    "zod-to-json-schema": "^3.24.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "typescript": "^5.3.3"
+  }
+}
