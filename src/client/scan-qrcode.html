@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QRCode</title>
+
+    <script>
+
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        function getRandomString (length ) {
+            let result = '';
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            const charactersLength = characters.length;
+            for (let i = 0; i <= length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+        const appId = getUrlParameter('appId');
+        const appSecret = getUrlParameter('appSecret');
+        const codeChallenge = getRandomString(43); 
+
+        function getQRCodeImageUrl() {
+            return new Promise(() => {
+                fetch('https://openapi.alipan.com/oauth/authorize/qrcode', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        client_id: appId,
+                        scopes: ['user:base', 'file:all:read', 'file:all:write'],
+                        code_challenge : codeChallenge,
+                        code_challenge_method: 'plain',
+                    }),
+                })
+                    .then(response => response.json())
+            })
+        }
+
+        getQRCodeImageUrl().then((data) => {
+            console.log(data);
+        });
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

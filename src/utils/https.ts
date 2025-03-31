@@ -5,7 +5,7 @@ export const http = axios.create({
   timeout: 20000,
   headers: {
     "Content-Type": "application/json",
-    jwt: project_config.api_token,
+    'access_token': project_config.access_token || '',
   },
 });
 
@@ -17,10 +17,6 @@ http.interceptors.response.use(
   (response) => {
     try {
       if (response.status === 200) {
-        if (![0, "0"].includes(response.data?.code)) {
-          return error(response.data?.message || "未知错误");
-        }
-
         return response;
       } else {
         return error(response.status.toString() + " " + JSON.stringify(response.config.data));
