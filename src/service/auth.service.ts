@@ -1,7 +1,12 @@
-import { IUserDriverInfo, IUserInfo } from "src/typings/service.js";
+import { IUserInfo, IUserSpaceInfo, IUserVipInfo , IUserDriveInfo} from "../typings/auth.js";
 import { http } from "../utils/https.js";
+import { BaseService } from "./base.service.js";
+export class AuthService extends BaseService {
 
-export class AuthService {
+    constructor() {
+        super()
+    }
+
     /**
      * 获取用户信息
      * @param token 
@@ -16,15 +21,27 @@ export class AuthService {
      * @param token
      * @returns
      */
-    async GetUserDriverInfo(): Promise<IUserDriverInfo> {
-        return null as any 
+    async GetUserDriveInfo(): Promise<IUserDriveInfo> {
+        const response = await http.post<IUserDriveInfo>('/adrive/v1.0/user/getDriveInfo')
+        return response.data
+    }
+
+    /**
+     * 获取用户网盘空间信息
+     */
+    async GetUserSpaceInfo() {
+        const response = await http.post<IUserSpaceInfo>('/adrive/v1.0/user/getSpaceInfo')
+        return response.data
+    }
+
+
+    /**
+     * 获取 用户 VIP 信息
+     */
+    async GetUserVipInfo() {
+        const response = await http.post<IUserVipInfo>('/business/v1.0/user/getVipInfo')
+        return response.data
     }
 }
 
 
-const au = new AuthService()
-au.GetUserInfo().then((res) => {
-    console.log(res)
-}).catch((err) => {
-    console.log(err)
-})
