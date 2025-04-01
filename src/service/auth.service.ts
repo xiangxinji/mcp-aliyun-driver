@@ -3,9 +3,6 @@ import { http } from "../utils/https.js";
 import { BaseService } from "./base.service.js";
 export class AuthService extends BaseService {
 
-    constructor() {
-        super()
-    }
 
     /**
      * 获取用户信息

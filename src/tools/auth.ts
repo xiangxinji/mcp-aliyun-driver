@@ -35,7 +35,7 @@ const GetCurrentDriveTool: Tool = {
             content: [
                 {
                     type: 'text',
-                    text: `当前用户名 id : ${driveInfo.user_id}, 昵称: ${driveInfo.name}, avatar: ${driveInfo.avatar}, 默认云盘 id: ${driveInfo.default_drive_id}, 资源云盘 id: ${driveInfo.resource_drive_id}, 资源云盘名称: ${driveInfo.resource_drive_name}, 备份盘 id: ${driveInfo.backup_drive_id}, 目录 id: ${driveInfo.folder_id}`
+                    text: `当前用户名 id : ${driveInfo.user_id}, 昵称: ${driveInfo.name}, avatar: ${driveInfo.avatar}, 默认盘id: ${driveInfo.default_drive_id}, 资源盘 id: ${driveInfo.resource_drive_id}, 资源云盘名称: ${driveInfo.resource_drive_name}, 备份盘 id: ${driveInfo.backup_drive_id}, 目录 id: ${driveInfo.folder_id}`
                 }
             ],
             isError: false

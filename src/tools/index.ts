@@ -6,6 +6,7 @@ import type { JsonSchema7Type } from 'zod-to-json-schema';
 import { Context } from '../context.js';
 
 import { tools as auth } from './auth.js';
+import { tools as file} from './file.js';
 export type ToolSchema = {
     name: string;
     description: string;
@@ -25,5 +26,6 @@ export type Tool = {
 
 
 export const tools: Tool[] = [
-    ...auth
+    ...auth,
+    ...file
 ] as Tool[];
