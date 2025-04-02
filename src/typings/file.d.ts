@@ -60,3 +60,38 @@ export interface IFileListResult {
      */
     items: IFileListItem[]
 }
+
+export interface IFileMoveResult {
+    /**
+     * 驱动盘 id
+     */
+    drive_id: string
+    /**
+     * 文件 id
+     */
+    file_id: string
+    /**
+     * 如果是异步的任务，返回异步任务 id
+     */
+    async_task_id: string
+    /**
+     * 文件是否存在
+     */
+    exist: boolean
+}
+
+
+export interface IFileCopyResult {
+    /**
+     * 驱动盘 id
+     */
+    drive_id: string
+    /**
+     * 文件 id
+     */
+    file_id: string
+    /**
+     * 如果是异步的任务，返回异步任务 id
+     */
+    async_task_id: string
+}
