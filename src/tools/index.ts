@@ -1,31 +1,28 @@
+import { ImageContent, TextContent } from "@modelcontextprotocol/sdk/types.js";
+import type { JsonSchema7Type } from "zod-to-json-schema";
+import { Context } from "../context.js";
 
+import { tools as auth } from "./auth.js";
+import { tools as file } from "./file.js";
+import { tools as share } from "./share.js";
 
-
-import { ImageContent, TextContent } from '@modelcontextprotocol/sdk/types.js';
-import type { JsonSchema7Type } from 'zod-to-json-schema';
-import { Context } from '../context.js';
-
-import { tools as auth } from './auth.js';
-import { tools as file} from './file.js';
 export type ToolSchema = {
-    name: string;
-    description: string;
-    inputSchema: JsonSchema7Type;
+  name: string;
+  description: string;
+  inputSchema: JsonSchema7Type;
 };
 
 export type ToolResult = {
-    content: (ImageContent | TextContent)[];
-    isError?: boolean;
+  content: (ImageContent | TextContent)[];
+  isError?: boolean;
 };
 
 export type Tool = {
-    schema: ToolSchema;
-    handle: (context: Context, params?: Record<string, any>) => Promise<ToolResult>;
+  schema: ToolSchema;
+  handle: (
+    context: Context,
+    params?: Record<string, any>
+  ) => Promise<ToolResult>;
 };
 
-
-
-export const tools: Tool[] = [
-    ...auth,
-    ...file
-] as Tool[];
+export const tools: Tool[] = [...auth, ...file, ...share] as Tool[];
