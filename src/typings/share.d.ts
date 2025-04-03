@@ -1,7 +1,7 @@
 /**
  * 分享结果
  */
-export interface IShareResult {
+export interface IShareFileResult {
   /** 分享ID */
   shareId: string;
   /** 过期时间 */

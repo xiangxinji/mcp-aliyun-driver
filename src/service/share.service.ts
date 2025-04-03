@@ -2,6 +2,7 @@ import { http } from "src/utils/https.js";
 import { BaseService } from "./base.service.js";
 import { project_config } from "../project.config.js";
 import { getExpireDate } from "src/utils/date.js";
+import { IShareFileResult } from "src/typings/share.js";
 
 export class ShareService extends BaseService {
   /**
@@ -9,20 +10,20 @@ export class ShareService extends BaseService {
    * @param param0
    */
   CreateShare({
-    driveId,
-    fileIdList,
-    expireDay = 7,
+    drive_id,
+    file_list = [],
+    expire_day = 7,
     sharePwd = project_config.default_share_code,
   }: {
-    driveId: string;
-    fileIdList: string[];
-    expireDay: number;
+    drive_id: string;
+    file_list: string[];
+    expire_day: number;
     sharePwd: string;
   }) {
-    return http.post("/adrive/v1.0/openFile/createShare", {
-      driveId,
-      fileIdList,
-      expiration: getExpireDate(expireDay),
+    return http.post<IShareFileResult>("/adrive/v1.0/openFile/createShare", {
+      drive_id,
+      file_list,
+      expiration: getExpireDate(expire_day),
       sharePwd,
     });
   }

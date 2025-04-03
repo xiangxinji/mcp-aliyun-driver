@@ -1,5 +1,4 @@
 import { createTryCatchBlock } from "../utils/catch-block.js";
-import { FileTypeText, GenerateFileInfoText } from "../utils/text.js";
 import { Tool, ToolResult } from "./index.js";
 import z from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
@@ -20,7 +19,14 @@ const ShareFileTool: Tool = {
   schema: {
     name: "ShareFile",
     description: "分享一个或多个云盘文件",
-    inputSchema: zodToJsonSchema(z.object({})),
+    inputSchema: zodToJsonSchema(
+      z.object({
+        drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),
+        file_list: z.array(z.string()).describe("文件ID列表"),
+        expire_day: z.number().default(7).describe("分享过期天数, 默认为 7 天"),
+        sharePwd: z.string().describe("分享密码，可以不填"),
+      })
+    ),
   },
   handle: async (context, params) => {
     return tryCatch(async () => {
@@ -29,7 +35,7 @@ const ShareFileTool: Tool = {
         content: [
           {
             type: "text",
-            text: JSON.stringify(res),
+            text: `已经分享文件，分享记录id：${res.data.shareId}，提取码为：${res.data.sharePwd}，分享链接为：${res.data.shareUrl}`,
           },
         ],
         isError: false,
