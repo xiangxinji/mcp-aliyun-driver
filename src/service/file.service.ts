@@ -152,4 +152,23 @@ export class FileService extends BaseService {
       auto_rename,
     });
   }
+
+  /**
+   * 获取收藏的文件列表
+   */
+  async GetStarredFileList({
+    drive_id,
+    limit = 100,
+  }: {
+    drive_id: string;
+    limit?: number;
+  }) {
+    return await http.post<IFileListResult>(
+      "/adrive/v1.0/openFile/starredList",
+      {
+        drive_id,
+        limit,
+      }
+    );
+  }
 }

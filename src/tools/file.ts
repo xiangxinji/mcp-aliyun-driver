@@ -219,6 +219,40 @@ const CopyFileTool: Tool = {
   },
 };
 
+
+const GetStarredFileList : Tool = {
+  schema : {
+    name: "GetStarredFileList",
+    description: "获取云盘收藏的文件列表",
+    inputSchema: zodToJsonSchema(
+      z.object({
+        drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),
+        limit: z.number().default(100).describe("查询数量, 默认为 100"),
+      })
+    ),
+  },
+  handle: async (context, params) => {
+    return tryCatch(async () => {
+      const res = await context.services.file.GetStarredFileList(params as any);
+      const text = res.data.items
+        .map((i) => {
+            return GenerateFileInfoText(i);
+        })
+        .join("\r\n");
+
+      return {
+        content: [
+          {
+            type: "text",
+            text,
+          },
+        ],
+        isError: false,
+      };
+    });
+  },
+}
+
 export const tools: Tool[] = [
   GetFileListTool,
   SearchFileListTool,
@@ -226,4 +260,5 @@ export const tools: Tool[] = [
   GetFileInfoByPathTool,
   MoveFileTool,
   CopyFileTool,
+  GetStarredFileList
 ];
