@@ -47,7 +47,7 @@ const GetCurrentDriveTool: Tool = {
 const GetUserSpaceInfoTool: Tool = {
     schema: {
         name: 'GetUserSpaceInfo',
-        description: '获取当前用户网盘空间信息',
+        description: '获取当前用户云盘空间信息',
         inputSchema: zodToJsonSchema(z.object({}))
     },
     handle: async (context, params) => {
@@ -57,7 +57,7 @@ const GetUserSpaceInfoTool: Tool = {
             content: [
                 {
                     type: 'text',
-                    text: '当前用户网盘空间信息: 总空间: ' + total_size + '字节 , 已使用空间: ' + used_size + '字节'
+                    text: '当前用户云盘空间信息: 总空间: ' + total_size + '字节 , 已使用空间: ' + used_size + '字节'
                 }
             ],
             isError: false

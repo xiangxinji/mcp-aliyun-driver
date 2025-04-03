@@ -19,7 +19,7 @@ const tryCatch = createTryCatchBlock<Promise<ToolResult>>((e) => {
 const GetFileListTool: Tool = {
   schema: {
     name: "GetFileList",
-    description: "获取网盘内的文件列表",
+    description: "获取云盘内的文件列表",
     inputSchema: zodToJsonSchema(
       z.object({
         drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),
@@ -58,7 +58,7 @@ const GetFileListTool: Tool = {
 const SearchFileListTool: Tool = {
   schema: {
     name: "SearchFileList",
-    description: "搜索网盘内的文件列表",
+    description: "搜索云盘内的文件列表",
     inputSchema: zodToJsonSchema(
       z.object({
         drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),
@@ -102,7 +102,7 @@ parent_file_id = 'root' and name = '123' and category = 'video'`),
 const GetFileInfoTool: Tool = {
   schema: {
     name: "GetFileInfo",
-    description: "获取文件信息",
+    description: "获取云盘文件信息",
     inputSchema: zodToJsonSchema(
       z.object({
         drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),
@@ -129,7 +129,7 @@ const GetFileInfoTool: Tool = {
 const GetFileInfoByPathTool: Tool = {
   schema: {
     name: "GetFileInfoByPath",
-    description: "获取文件信息",
+    description: "获取云盘文件信息",
     inputSchema: zodToJsonSchema(
       z.object({
         drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),
@@ -157,7 +157,7 @@ const GetFileInfoByPathTool: Tool = {
 const MoveFileTool: Tool = {
   schema: {
     name: "MoveFile",
-    description: "移动文件",
+    description: "移动云盘文件",
     inputSchema: zodToJsonSchema(
       z.object({
         drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),
@@ -191,7 +191,7 @@ const MoveFileTool: Tool = {
 const CopyFileTool: Tool = {
   schema: {
     name: "CopyFile",
-    description: "复制文件",
+    description: "复制云盘文件",
     inputSchema: zodToJsonSchema(
       z.object({
         drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),

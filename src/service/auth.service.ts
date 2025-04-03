@@ -14,7 +14,7 @@ export class AuthService extends BaseService {
     }
 
     /**
-     * 获取用户网盘信息
+     * 获取用户云盘信息
      * @param token
      * @returns
      */
@@ -24,7 +24,7 @@ export class AuthService extends BaseService {
     }
 
     /**
-     * 获取用户网盘空间信息
+     * 获取用户云盘空间信息
      */
     async GetUserSpaceInfo() {
         const response = await http.post<IUserSpaceInfo>('/adrive/v1.0/user/getSpaceInfo')
