@@ -3,6 +3,7 @@ import { Tool, ToolResult } from "./index.js";
 import z from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { createTryCatchBlock } from "../utils/catch-block.js";
+import { downloadFile } from "../utils/file.js";
 
 const tryCatch = createTryCatchBlock<Promise<ToolResult>>((e) => {
   return {
@@ -34,11 +35,9 @@ const GetFileListTool: Tool = {
       const res = await context.services.file.GetFileList(params as any);
       const text = res.items
         .map((i) => {
-          return `文件id：${i.file_id},文件名：${i.name},文件大小：${
-            i.size
-          },文件类型：${FileTypeText[i.type]},创建时间：${
-            i.created_at
-          },更新时间：${i.updated_at}`;
+          return `文件id：${i.file_id},文件名：${i.name},文件大小：${i.size
+            },文件类型：${FileTypeText[i.type]},创建时间：${i.created_at
+            },更新时间：${i.updated_at}`;
         })
         .join("\r\n");
 
@@ -78,11 +77,9 @@ parent_file_id = 'root' and name = '123' and category = 'video'`),
       const res = await context.services.file.SearchFileList(params as any);
       const text = res.items
         .map((i) => {
-          return `文件id：${i.file_id},文件名：${i.name},文件大小：${
-            i.size
-          },文件类型：${FileTypeText[i.type]},创建时间：${
-            i.created_at
-          },更新时间：${i.updated_at}`;
+          return `文件id：${i.file_id},文件名：${i.name},文件大小：${i.size
+            },文件类型：${FileTypeText[i.type]},创建时间：${i.created_at
+            },更新时间：${i.updated_at}`;
         })
         .join("\r\n");
 
@@ -177,9 +174,9 @@ const MoveFileTool: Tool = {
         content: [
           {
             type: "text",
-            text: res.data.async_task_id
-              ? `文件正在移动， 任务ID：${res.data.async_task_id}`
-              : `文件移动成功，驱动盘ID ：${res.data.drive_id}，文件ID：${res.data.file_id}`,
+            text: res.async_task_id
+              ? `文件正在移动， 任务ID：${res.async_task_id}`
+              : `文件移动成功，驱动盘ID ：${res.drive_id}，文件ID：${res.file_id}`,
           },
         ],
         isError: false,
@@ -209,9 +206,9 @@ const CopyFileTool: Tool = {
         content: [
           {
             type: "text",
-            text: res.data.async_task_id
-              ? `文件正在复制， 任务ID：${res.data.async_task_id}`
-              : `文件复制成功，驱动盘ID ：${res.data.drive_id}，文件ID：${res.data.file_id}`,
+            text: res.async_task_id
+              ? `文件正在复制， 任务ID：${res.async_task_id}`
+              : `文件复制成功，驱动盘ID ：${res.drive_id}，文件ID：${res.file_id}`,
           },
         ],
       };
@@ -220,8 +217,8 @@ const CopyFileTool: Tool = {
 };
 
 
-const GetStarredFileList : Tool = {
-  schema : {
+const GetStarredFileList: Tool = {
+  schema: {
     name: "GetStarredFileList",
     description: "获取云盘收藏的文件列表",
     inputSchema: zodToJsonSchema(
@@ -234,9 +231,9 @@ const GetStarredFileList : Tool = {
   handle: async (context, params) => {
     return tryCatch(async () => {
       const res = await context.services.file.GetStarredFileList(params as any);
-      const text = res.data.items
+      const text = res.items
         .map((i) => {
-            return GenerateFileInfoText(i);
+          return GenerateFileInfoText(i);
         })
         .join("\r\n");
 
@@ -253,6 +250,65 @@ const GetStarredFileList : Tool = {
   },
 }
 
+
+const GetFileDonwloadUrlTool: Tool = {
+  schema: {
+    name: "GetFileDonwloadUrl",
+    description: "获取云盘文件下载链接",
+    inputSchema: zodToJsonSchema(
+      z.object({
+        drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),
+        file_id: z.string().describe("文件ID"),
+      })
+    ),
+  },
+  handle: async (context, params) => {
+    return tryCatch(async () => {
+      const res = await context.services.file.GetDownloadUrl(params as any);
+      return {
+        content: [
+          {
+            type: "text",
+            text: `下载链接：${res.url} ，过期时间：${res.expiration}， 描述：${res.description}`,
+          },
+        ],
+        isError: false,
+      };
+    });
+  }
+}
+
+
+const DownloadFileTool: Tool = {
+  schema: {
+    name: "DownloadFileByFileID",
+    description: "下载云盘文件",
+    inputSchema: zodToJsonSchema(
+      z.object({
+        drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),
+        file_id: z.string().describe("文件ID"),
+      })
+    ),
+  },
+  handle: async (context, params) => {
+    return tryCatch(async () => {
+      const fileInfo = await context.services.file.GetFileInfo(params as any);
+      const res = await context.services.file.GetDownloadUrl(params as any);
+      await downloadFile(res.url, fileInfo.name);
+      return {
+        content: [
+          {
+            type: "text",
+            text: `文件下载成功，文件名：${fileInfo.name}，文件大小：${fileInfo.size}`,
+          },
+        ],
+        isError: false,
+      };
+    });
+  }
+}
+
+
 export const tools: Tool[] = [
   GetFileListTool,
   SearchFileListTool,
@@ -260,5 +316,7 @@ export const tools: Tool[] = [
   GetFileInfoByPathTool,
   MoveFileTool,
   CopyFileTool,
-  GetStarredFileList
+  GetStarredFileList,
+  GetFileDonwloadUrlTool,
+  DownloadFileTool
 ];

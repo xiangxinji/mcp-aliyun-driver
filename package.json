@@ -15,7 +15,8 @@
     "prepare": "npm run build",
     "watch": "tsc --watch",
     "test": "npm run build && node ./lib/test/service/meta.testing.js",
-    "inspector": "npx @modelcontextprotocol/inspector lib/index.js"
+    "inspector": "npx @modelcontextprotocol/inspector lib/index.js" , 
+    "dev" : "pnpm run build && pnpm run inspector"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "0.6.0",

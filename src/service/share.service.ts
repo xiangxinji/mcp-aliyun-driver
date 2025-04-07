@@ -1,8 +1,8 @@
-import { http } from "src/utils/https.js";
+import { http } from "../utils/https.js";
 import { BaseService } from "./base.service.js";
 import { project_config } from "../project.config.js";
-import { getExpireDate } from "src/utils/date.js";
-import { IShareFileResult } from "src/typings/share.js";
+import { getExpireDate } from "../utils/date.js";
+import { IShareFileResult } from "../typings/share.js";
 
 export class ShareService extends BaseService {
   /**

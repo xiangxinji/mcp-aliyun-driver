@@ -2,6 +2,7 @@ import { http } from "../utils/https.js";
 import { BaseService } from "./base.service.js";
 import {
   IFileCopyResult,
+  IFileDownloadUrl,
   IFileListItem,
   IFileListResult,
   IFileMoveResult,
@@ -119,13 +120,14 @@ export class FileService extends BaseService {
     check_name_mode: "ignore" | "rename" | "refuse";
     new_name?: string;
   }) {
-    return await http.post<IFileMoveResult>("/adrive/v1.0/openFile/move", {
+    const res =  await http.post<IFileMoveResult>("/adrive/v1.0/openFile/move", {
       drive_id,
       file_id,
       to_parent_file_id,
       check_name_mode,
       new_name,
     });
+    return res.data;
   }
 
   /**
@@ -145,12 +147,13 @@ export class FileService extends BaseService {
     to_parent_file_id: string;
     auto_rename: boolean;
   }) {
-    return await http.post<IFileCopyResult>("/adrive/v1.0/openFile/copy", {
+    const res = await http.post<IFileCopyResult>("/adrive/v1.0/openFile/copy", {
       drive_id,
       file_id,
       to_parent_file_id,
       auto_rename,
     });
+    return res.data;
   }
 
   /**
@@ -163,12 +166,28 @@ export class FileService extends BaseService {
     drive_id: string;
     limit?: number;
   }) {
-    return await http.post<IFileListResult>(
+    const response = await http.post<IFileListResult>(
       "/adrive/v1.0/openFile/starredList",
       {
         drive_id,
         limit,
       }
     );
+    return response.data;
   }
+
+
+  /**
+   * 获取文件的下载地址 (单个文件)
+   * @param param0 
+   */
+  async GetDownloadUrl({ drive_id, file_id }: { drive_id: string; file_id: string }) {
+    const res =  await http.post<IFileDownloadUrl>("/adrive/v1.0/openFile/getDownloadUrl", {
+      drive_id,
+      file_id,
+    });
+    return res.data;
+  }
+
 }
+

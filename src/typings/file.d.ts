@@ -95,3 +95,31 @@ export interface IFileCopyResult {
      */
     async_task_id: string
 }
+
+
+export interface IFileDownloadUrl {
+    /**
+     * 下载链接
+     */
+    url: string
+    /**
+     * 过期时间
+     */
+    expiration: string
+    /**
+     * 下载方法
+     */
+    method: string
+    /**
+     * 描述
+     */
+    description: string
+    /**
+     * 文件 id
+     */
+    file_id: string
+    /**
+     * 文件大小
+     */
+    size: number
+}
