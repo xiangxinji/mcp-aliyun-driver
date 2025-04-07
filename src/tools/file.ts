@@ -282,7 +282,7 @@ const GetFileDonwloadUrlTool: Tool = {
 const DownloadFileTool: Tool = {
   schema: {
     name: "DownloadFileByFileID",
-    description: "下载云盘文件",
+    description: "根据文件ID和驱动盘ID下载云盘文件到本地",
     inputSchema: zodToJsonSchema(
       z.object({
         drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),
