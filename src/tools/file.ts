@@ -24,7 +24,7 @@ const GetFileListTool: Tool = {
     description: "获取云盘内的文件列表",
     inputSchema: zodToJsonSchema(
       z.object({
-        drive_id: z.string().describe("云盘ID,可以不填"),
+        drive_id: z.string().describe("资源盘ID或者备份盘ID,默认用资源盘ID"),
         limit: z.number().default(100).describe("查询数量, 默认为 100"),
         parent_file_id: z.string().describe("父文件ID").default("root"),
         type: z.enum(["all", "file", "folder"]).default("all"),
@@ -63,7 +63,7 @@ const SearchFileListTool: Tool = {
     description: "搜索云盘内的文件列表",
     inputSchema: zodToJsonSchema(
       z.object({
-        drive_id: z.string().describe("云盘ID,可以不填"),
+        drive_id: z.string().describe("资源盘ID或者备份盘ID,默认用资源盘ID"),
         limit: z.number().default(100).describe("查询数量, 默认为 100"),
         query: z.string().describe(`查询语句，例如：精确查询 name = '123'
 模糊匹配 name match "123"
@@ -107,7 +107,7 @@ const GetFileInfoTool: Tool = {
     description: "获取云盘文件信息",
     inputSchema: zodToJsonSchema(
       z.object({
-        drive_id: z.string().describe("云盘ID,可以不填"),
+        drive_id: z.string().describe("资源盘ID或者备份盘ID,默认用资源盘ID"),
         file_id: z.string().describe("文件ID"),
       })
     ),
@@ -134,7 +134,7 @@ const GetFileInfoByPathTool: Tool = {
     description: "获取云盘文件信息",
     inputSchema: zodToJsonSchema(
       z.object({
-        drive_id: z.string().describe("云盘ID,可以不填"),
+        drive_id: z.string().describe("资源盘ID或者备份盘ID,默认用资源盘ID"),
         path: z.string().describe("文件路径"),
       })
     ),
@@ -162,7 +162,7 @@ const MoveFileTool: Tool = {
     description: "移动云盘文件",
     inputSchema: zodToJsonSchema(
       z.object({
-        drive_id: z.string().describe("云盘ID,可以不填"),
+        drive_id: z.string().describe("资源盘ID或者备份盘ID,默认用资源盘ID"),
         file_id: z.string().describe("文件ID"),
         to_parent_file_id: z.string().describe("目标文件夹ID"),
         check_name_mode: z
@@ -196,9 +196,9 @@ const CopyFileTool: Tool = {
     description: "复制云盘文件",
     inputSchema: zodToJsonSchema(
       z.object({
-        drive_id: z.string().describe("云盘ID,可以不填"),
+        drive_id: z.string().describe("资源盘ID或者备份盘ID,默认用资源盘ID"),
         file_id: z.string().describe("文件ID"),
-        to_drive_id: z.string().describe("目标云盘ID,可以不填"),
+        to_drive_id: z.string().describe("目标资源盘ID或者备份盘ID,默认用资源盘ID"),
         to_parent_file_id: z.string().describe("目标文件夹ID"),
         auto_rename: z.boolean().default(true),
       })
@@ -227,7 +227,7 @@ const GetStarredFileList: Tool = {
     description: "获取云盘收藏的文件列表",
     inputSchema: zodToJsonSchema(
       z.object({
-        drive_id: z.string().describe("云盘ID,可以不填"),
+        drive_id: z.string().describe("资源盘ID或者备份盘ID,默认用资源盘ID"),
         limit: z.number().default(100).describe("查询数量, 默认为 100"),
       })
     ),
@@ -260,7 +260,7 @@ const GetFileDownloadUrlTool: Tool = {
     description: "获取云盘文件下载链接",
     inputSchema: zodToJsonSchema(
       z.object({
-        drive_id: z.string().describe("云盘ID,可以不填"),
+        drive_id: z.string().describe("资源盘ID或者备份盘ID,默认用资源盘ID"),
         file_id: z.string().describe("文件ID"),
       })
     ),
@@ -287,7 +287,7 @@ const DownloadFileTool: Tool = {
     description: "根据文件ID和驱动盘ID下载云盘文件到本地桌面上",
     inputSchema: zodToJsonSchema(
       z.object({
-        drive_id: z.string().describe("云盘ID,可以不填"),
+        drive_id: z.string().describe("资源盘ID或者备份盘ID,默认用资源盘ID"),
         file_id: z.string().describe("文件ID"),
       })
     ),
