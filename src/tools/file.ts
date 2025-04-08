@@ -36,9 +36,11 @@ const GetFileListTool: Tool = {
       const res = await context.services.file.GetFileList(params as any);
       const text = res.items
         .map((i) => {
-          return `文件id：${i.file_id},文件名：${i.name},文件大小：${i.size
-            },文件类型：${FileTypeText[i.type]},创建时间：${i.created_at
-            },更新时间：${i.updated_at}`;
+          return `文件id：${i.file_id},文件名：${i.name},文件大小：${
+            i.size
+          },文件类型：${FileTypeText[i.type]},创建时间：${
+            i.created_at
+          },更新时间：${i.updated_at}`;
         })
         .join("\r\n");
 
@@ -78,9 +80,11 @@ parent_file_id = 'root' and name = '123' and category = 'video'`),
       const res = await context.services.file.SearchFileList(params as any);
       const text = res.items
         .map((i) => {
-          return `文件id：${i.file_id},文件名：${i.name},文件大小：${i.size
-            },文件类型：${FileTypeText[i.type]},创建时间：${i.created_at
-            },更新时间：${i.updated_at}`;
+          return `文件id：${i.file_id},文件名：${i.name},文件大小：${
+            i.size
+          },文件类型：${FileTypeText[i.type]},创建时间：${
+            i.created_at
+          },更新时间：${i.updated_at}`;
         })
         .join("\r\n");
 
@@ -217,7 +221,6 @@ const CopyFileTool: Tool = {
   },
 };
 
-
 const GetStarredFileList: Tool = {
   schema: {
     name: "GetStarredFileList",
@@ -249,8 +252,7 @@ const GetStarredFileList: Tool = {
       };
     });
   },
-}
-
+};
 
 const GetFileDownloadUrlTool: Tool = {
   schema: {
@@ -276,9 +278,8 @@ const GetFileDownloadUrlTool: Tool = {
         isError: false,
       };
     });
-  }
-}
-
+  },
+};
 
 const DownloadFileTool: Tool = {
   schema: {
@@ -295,7 +296,7 @@ const DownloadFileTool: Tool = {
     return tryCatch(async () => {
       const fileInfo = await context.services.file.GetFileInfo(params as any);
       const res = await context.services.file.GetDownloadUrl(params as any);
-      await downloadFile(res.url, toDesktop(fileInfo.name));
+      downloadFile(res.url, toDesktop(fileInfo.name));
       return {
         content: [
           {
@@ -306,9 +307,8 @@ const DownloadFileTool: Tool = {
         isError: false,
       };
     });
-  }
-}
-
+  },
+};
 
 export const tools: Tool[] = [
   GetFileListTool,
@@ -319,5 +319,5 @@ export const tools: Tool[] = [
   CopyFileTool,
   GetStarredFileList,
   GetFileDownloadUrlTool,
-  DownloadFileTool
+  DownloadFileTool,
 ];
