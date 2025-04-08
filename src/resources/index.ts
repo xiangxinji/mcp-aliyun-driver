@@ -1,5 +1,5 @@
 import type { Context } from "../context.js";
-
+import { resources as adrive } from "./adrive.js";
 export type ResourceSchema = {
   uri: string;
   name: string;
@@ -18,3 +18,8 @@ export type Resource = {
   schema: ResourceSchema;
   read: (context: Context, uri: string) => Promise<ResourceResult[]>;
 };
+
+
+export const resources: Resource[] = [
+  ...adrive
+];

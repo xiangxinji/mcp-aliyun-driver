@@ -4,6 +4,7 @@ import z from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { createTryCatchBlock } from "../utils/catch-block.js";
 import { downloadFile } from "../utils/file.js";
+import { toDesktop } from "../utils/path.js";
 
 const tryCatch = createTryCatchBlock<Promise<ToolResult>>((e) => {
   return {
@@ -23,7 +24,7 @@ const GetFileListTool: Tool = {
     description: "获取云盘内的文件列表",
     inputSchema: zodToJsonSchema(
       z.object({
-        drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),
+        drive_id: z.string().describe("云盘ID,可以不填"),
         limit: z.number().default(100).describe("查询数量, 默认为 100"),
         parent_file_id: z.string().describe("父文件ID").default("root"),
         type: z.enum(["all", "file", "folder"]).default("all"),
@@ -60,7 +61,7 @@ const SearchFileListTool: Tool = {
     description: "搜索云盘内的文件列表",
     inputSchema: zodToJsonSchema(
       z.object({
-        drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),
+        drive_id: z.string().describe("云盘ID,可以不填"),
         limit: z.number().default(100).describe("查询数量, 默认为 100"),
         query: z.string().describe(`查询语句，例如：精确查询 name = '123'
 模糊匹配 name match "123"
@@ -102,7 +103,7 @@ const GetFileInfoTool: Tool = {
     description: "获取云盘文件信息",
     inputSchema: zodToJsonSchema(
       z.object({
-        drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),
+        drive_id: z.string().describe("云盘ID,可以不填"),
         file_id: z.string().describe("文件ID"),
       })
     ),
@@ -129,7 +130,7 @@ const GetFileInfoByPathTool: Tool = {
     description: "获取云盘文件信息",
     inputSchema: zodToJsonSchema(
       z.object({
-        drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),
+        drive_id: z.string().describe("云盘ID,可以不填"),
         path: z.string().describe("文件路径"),
       })
     ),
@@ -157,7 +158,7 @@ const MoveFileTool: Tool = {
     description: "移动云盘文件",
     inputSchema: zodToJsonSchema(
       z.object({
-        drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),
+        drive_id: z.string().describe("云盘ID,可以不填"),
         file_id: z.string().describe("文件ID"),
         to_parent_file_id: z.string().describe("目标文件夹ID"),
         check_name_mode: z
@@ -191,9 +192,9 @@ const CopyFileTool: Tool = {
     description: "复制云盘文件",
     inputSchema: zodToJsonSchema(
       z.object({
-        drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),
+        drive_id: z.string().describe("云盘ID,可以不填"),
         file_id: z.string().describe("文件ID"),
-        to_drive_id: z.string().describe("目标云盘ID"),
+        to_drive_id: z.string().describe("目标云盘ID,可以不填"),
         to_parent_file_id: z.string().describe("目标文件夹ID"),
         auto_rename: z.boolean().default(true),
       })
@@ -223,7 +224,7 @@ const GetStarredFileList: Tool = {
     description: "获取云盘收藏的文件列表",
     inputSchema: zodToJsonSchema(
       z.object({
-        drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),
+        drive_id: z.string().describe("云盘ID,可以不填"),
         limit: z.number().default(100).describe("查询数量, 默认为 100"),
       })
     ),
@@ -257,7 +258,7 @@ const GetFileDonwloadUrlTool: Tool = {
     description: "获取云盘文件下载链接",
     inputSchema: zodToJsonSchema(
       z.object({
-        drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),
+        drive_id: z.string().describe("云盘ID,可以不填"),
         file_id: z.string().describe("文件ID"),
       })
     ),
@@ -282,10 +283,10 @@ const GetFileDonwloadUrlTool: Tool = {
 const DownloadFileTool: Tool = {
   schema: {
     name: "DownloadFileByFileID",
-    description: "根据文件ID和驱动盘ID下载云盘文件到本地",
+    description: "根据文件ID和驱动盘ID下载云盘文件到本地桌面上",
     inputSchema: zodToJsonSchema(
       z.object({
-        drive_id: z.string().describe("云盘ID , 默认为默认驱动盘"),
+        drive_id: z.string().describe("云盘ID,可以不填"),
         file_id: z.string().describe("文件ID"),
       })
     ),
@@ -294,7 +295,7 @@ const DownloadFileTool: Tool = {
     return tryCatch(async () => {
       const fileInfo = await context.services.file.GetFileInfo(params as any);
       const res = await context.services.file.GetDownloadUrl(params as any);
-      await downloadFile(res.url, fileInfo.name);
+      await downloadFile(res.url, toDesktop(fileInfo.name));
       return {
         content: [
           {
