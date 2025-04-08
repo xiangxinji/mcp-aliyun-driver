@@ -8,6 +8,7 @@ import {
   IFileMoveResult,
 } from "../typings/file.js";
 
+
 export class FileService extends BaseService {
   /**
    * 文件列表
@@ -120,7 +121,7 @@ export class FileService extends BaseService {
     check_name_mode: "ignore" | "rename" | "refuse";
     new_name?: string;
   }) {
-    const res =  await http.post<IFileMoveResult>("/adrive/v1.0/openFile/move", {
+    const res = await http.post<IFileMoveResult>("/adrive/v1.0/openFile/move", {
       drive_id,
       file_id,
       to_parent_file_id,
@@ -176,18 +177,25 @@ export class FileService extends BaseService {
     return response.data;
   }
 
-
   /**
    * 获取文件的下载地址 (单个文件)
-   * @param param0 
+   * @param param0
    */
-  async GetDownloadUrl({ drive_id, file_id }: { drive_id: string; file_id: string }) {
-    const res =  await http.post<IFileDownloadUrl>("/adrive/v1.0/openFile/getDownloadUrl", {
-      drive_id,
-      file_id,
-    });
+  async GetDownloadUrl({
+    drive_id,
+    file_id,
+  }: {
+    drive_id: string;
+    file_id: string;
+  }) {
+    const res = await http.post<IFileDownloadUrl>(
+      "/adrive/v1.0/openFile/getDownloadUrl",
+      {
+        drive_id,
+        file_id,
+      }
+    );
     return res.data;
   }
-
 }
 

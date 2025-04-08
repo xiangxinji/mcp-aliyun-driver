@@ -252,7 +252,7 @@ const GetStarredFileList: Tool = {
 }
 
 
-const GetFileDonwloadUrlTool: Tool = {
+const GetFileDownloadUrlTool: Tool = {
   schema: {
     name: "GetFileDonwloadUrl",
     description: "获取云盘文件下载链接",
@@ -318,6 +318,6 @@ export const tools: Tool[] = [
   MoveFileTool,
   CopyFileTool,
   GetStarredFileList,
-  GetFileDonwloadUrlTool,
+  GetFileDownloadUrlTool,
   DownloadFileTool
 ];
